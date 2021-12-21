@@ -1,6 +1,7 @@
 package com.vb.breastfeedingnotes.database
 
 import androidx.lifecycle.LiveData
+import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -19,7 +20,7 @@ class NotesRepository @Inject constructor(private val notesDao: NotesDao) {
         return notesDao.getLatestFeeding()
     }
 
-       fun getFeedingsByDate(selected_date: LocalDate): List<Note> {
+    fun getFeedingsByDate(selected_date: LocalDate): Flow<List<Note>> {
        return notesDao.getFeedingsByDate(selected_date)
     }
 }

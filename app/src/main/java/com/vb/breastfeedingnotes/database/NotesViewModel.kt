@@ -2,11 +2,14 @@ package com.vb.breastfeedingnotes.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.vb.breastfeedingnotes.asFlow
 import com.vb.breastfeedingnotes.database.Note
 import com.vb.breastfeedingnotes.database.NotesDatabase
 import com.vb.breastfeedingnotes.database.NotesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
@@ -28,6 +31,9 @@ class NotesViewModel @Inject constructor(private val repository: NotesRepository
     val selectedDate: LiveData<String> = _selectedDate
 
     private val _duration_time = MutableLiveData<String>()
+
+
+    val notes = selectedDate.asFlow().flatMapLatest {  repository.getFeedingsByDate(LocalDate.parse(it)) }
 
 
     fun onDateChange(date: String?) {
@@ -57,10 +63,9 @@ class NotesViewModel @Inject constructor(private val repository: NotesRepository
         }
     }
 
-    fun removeNote(note: Note) {
-        viewModelScope.launch(Dispatchers.IO) {
+   suspend fun removeNote(note: Note) {
             repository.deleteNote(note)
-        }
+
     }
 
     fun getLastFeeding(): LiveData<Note> {
@@ -68,8 +73,8 @@ class NotesViewModel @Inject constructor(private val repository: NotesRepository
     }
 
 
-    fun getFeedingByDate(date: LocalDate): List<Note> {
-        return repository.getFeedingsByDate(date)
-    }
+//    fun getFeedingByDate(date: LocalDate): List<Note> {
+//        return repository.getFeedingsByDate(date)
+//    }
 
 }

@@ -9,6 +9,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,28 +28,10 @@ import java.time.LocalDate
 @Composable
 fun NotesList(viewModel: NotesViewModel) {
 
-    var noteList = remember { mutableStateListOf<Note>() }
-    val activity = LocalContext.current as AppCompatActivity
+    val noteList by viewModel.notes.collectAsState(initial = emptyList())
 
-//    if (runningFirstTime) { viewModel.onDateChange(LocalDate.now().toString()) }
 
-    viewModel.selectedDate.observe(activity) {
-        GlobalScope.launch(Dispatchers.Main) {
-            var items = withContext(Dispatchers.IO) {
-                viewModel.getFeedingByDate(LocalDate.parse(it))
-            }
-            noteList.swapList(items)
-        }
-    }
-
-    val removeNote = { note: Note ->
-        GlobalScope.launch(Dispatchers.Main) {
-            withContext(Dispatchers.IO) { viewModel.removeNote(note) }
-            viewModel.onDateChange(note.date.toString())
-        }
-    }
-
-    val timeConverter = TimeConverter()
+    val timeConverter = remember { TimeConverter() }
     LazyColumn(modifier = Modifier.fillMaxWidth()) {
         items(noteList) { note ->
             Row(
@@ -78,8 +61,12 @@ fun NotesList(viewModel: NotesViewModel) {
                     text = "${note.side}",
                     modifier = Modifier.align(Alignment.CenterVertically)
                 )
+                val scope = rememberCoroutineScope()
                 TextButton(
-                    onClick = { removeNote(note) },
+                    onClick = {
+                        scope.launch {
+                        viewModel.removeNote(note)
+                        } },
                     modifier = Modifier
                         .padding(2.dp)
                 ) {
@@ -95,12 +82,6 @@ fun NotesList(viewModel: NotesViewModel) {
 
         }
     }
-}
-
-
-fun <T> SnapshotStateList<T>.swapList(newList: List<T>) {
-    clear()
-    addAll(newList)
 }
 
 
