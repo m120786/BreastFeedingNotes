@@ -5,6 +5,7 @@ import android.content.Context
 import android.icu.util.TimeUnit
 import android.text.format.DateFormat.format
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -19,29 +20,42 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.vb.breastfeedingnotes.R
+import com.vb.breastfeedingnotes.database.Note
+import com.vb.breastfeedingnotes.ui.theme.PrimaryVeryLight
 import com.vb.breastfeedingnotes.utils.TimeConverter
+import com.vb.breastfeedingnotes.viewmodel.NotesViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 import java.util.*
 
 
 @Composable
-fun AddNotePlus() {
+fun AddNotePlus(mNotesViewModel: NotesViewModel) {
     var showDialog by remember { mutableStateOf(false)}
 
     val context = LocalContext.current as AppCompatActivity
 
-    OutlinedButton(onClick = {showDialog = true}) {
-        Icon(painter = painterResource(id = R.drawable.ic_baseline_playlist_add_24),
+    OutlinedButton(onClick = {showDialog = true}, modifier = Modifier.background(PrimaryVeryLight)) {
+        Icon(modifier = Modifier.size(24.dp),
+            painter = painterResource(id = R.drawable.ic_baseline_playlist_add_24),
             contentDescription = "add_note_button",
             tint = Color.Black,
-            modifier = Modifier.size(24.dp))
+            )
 
     }
     if (showDialog) {
-        DialogAddNote(onDismiss = {showDialog = !showDialog}, onAddNote = {showDialog = !showDialog}, onCancel = {showDialog = !showDialog}, context = context)
+        DialogAddNote(onDismiss = {showDialog = !showDialog},
+            onAddNote = {mNotesViewModel.addNote(it)},
+            onCancel = {showDialog = !showDialog},
+            context = context,
+            onListChange = {mNotesViewModel.onDateChange(LocalDate.now().toString())})
     }
 
 }
@@ -50,10 +64,12 @@ fun AddNotePlus() {
 fun DialogAddNote(
     onDismiss: () -> Unit,
     onCancel: () -> Unit,
-    onAddNote: () -> Unit,
+    onAddNote: (Note) -> Unit,
+    onListChange: () -> Unit,
     context: Context) {
     var timeDifference = remember {mutableStateOf("")}
     var side: String = ""
+
 
     Dialog(onDismissRequest = onDismiss) {
         Card(
@@ -69,16 +85,27 @@ fun DialogAddNote(
                 var startTime = TimePicker(context = context, "Pradžia: ")
                 Spacer(modifier = Modifier.padding(10.dp))
                 var endTime = TimePicker(context = context, "Pabaiga: ")
+
                 if (startTime != 0L && endTime != 0L) {
                     timeDifference.value = timeDiffToString(getTimeDifference(startTime, endTime))
                 }
                 Text(text = "${timeDifference.value}")
                 Spacer(modifier = Modifier.padding(10.dp))
                 side = myradioGroup()
+                if (side == stringResource(id = R.string.left)) {
+                    side = stringResource(id = R.string.left_l)
+                } else {
+                    side = stringResource(id = R.string.right_r)
+                }
 
 
                 Row(verticalAlignment = Alignment.Bottom) {
-                    OutlinedButton(onClick = onAddNote) {
+                    OutlinedButton(onClick = {
+                        val noteObj = Note(0, LocalDate.now(),startTime, endTime, getTimeDifference(startTime, endTime),side)
+                        onAddNote(noteObj)
+                        onListChange()
+                        onCancel()
+                    }) {
                         Text(text = stringResource(R.string.add))
                     }
                     Spacer(modifier = Modifier.padding(2.dp))
@@ -109,7 +136,7 @@ fun timeDiffToString(timeDiff: Long): String {
     var stringHM: String = ""
     hours = timeDiff / (60 * 60 * 1000) % 24
     minutes = (timeDiff - hours*60*60*1000) / (1000 * 60)
-    stringHM = "${hours}:${minutes}"
+    stringHM = "${hours} h : ${minutes} min"
     return stringHM
 }
 

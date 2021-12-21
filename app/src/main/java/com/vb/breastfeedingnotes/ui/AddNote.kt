@@ -169,11 +169,6 @@ fun AddNoteScreen(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column(modifier = Modifier.weight(0.5F)) {
                     Row(modifier = Modifier.padding(2.dp)) {
-                        Text(
-                            text = stringResource(R.string.start),
-                            color = PrimaryDark,
-                            style = Typography.h6
-                        )
                         Spacer(modifier = Modifier.padding(2.dp))
                         Text(
                             text = " ${startTime.value}",
@@ -181,29 +176,9 @@ fun AddNoteScreen(
                             style = Typography.h6
                         )
                     }
-                    Row(modifier = Modifier.padding(2.dp)) {
-                        Text(
-                            text = stringResource(R.string.side),
-                            color = PrimaryDark,
-                            style = Typography.h6
-                        )
-                        Spacer(modifier = Modifier.padding(2.dp))
-                        Text(
-                            text = "     ${side.value}",
-                            color = Color.Black,
-                            style = Typography.h6
-                        )
-                    }
+                    Timer(timerViewModel)
                 }
-                Column(modifier = Modifier.weight(0.5F), verticalArrangement = Arrangement.Center) {
-                    Row(
-                        modifier = Modifier.padding(2.dp),
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Timer(timerViewModel)
-                    }
-                }
+                AddNotePlus(notesViewModel)
             }
             side.value = myradioGroup()
             Spacer(modifier = Modifier.padding(2.dp))

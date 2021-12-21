@@ -53,7 +53,6 @@ class MainActivity : AppCompatActivity() {
                             Card(elevation = 2.dp, modifier = Modifier.padding(horizontal = 10.dp, vertical = 10.dp)) {
                                 Column(horizontalAlignment = Alignment.End) {
                                         DatePickerView(mNotesViewModel)
-                                        AddNotePlus()
                                         RowOfIcons()
                                         NotesList(mNotesViewModel)
 

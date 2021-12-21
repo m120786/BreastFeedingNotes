@@ -7,6 +7,10 @@
     <string name="cancel">Atšaukti</string>,
     <string name="add">Pridėti</string>
     <string name="add_note">Pridėti įrašą</string>
+    <string name="left">Kairė</string>
+    <string name="right">Dešinė</string>
+    <string name="left_l">L</string>
+    <string name="right_r">R</string>
 
 
 
