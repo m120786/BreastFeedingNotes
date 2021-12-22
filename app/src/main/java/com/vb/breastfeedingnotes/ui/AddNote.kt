@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.vb.breastfeedingnotes.R
 import com.vb.breastfeedingnotes.database.Note
 import com.vb.breastfeedingnotes.ui.theme.*
@@ -30,9 +31,9 @@ import java.time.LocalDate
 
 @Composable
 fun AddNoteScreen(
-    notesViewModel: NotesViewModel,
-    timerViewModel: TimerViewModel
 ) {
+    val notesViewModel: NotesViewModel = viewModel()
+    val timerViewModel: TimerViewModel = viewModel()
 
     val startTime = notesViewModel.start_time.collectAsState(initial = 0L)
     val startTimeT = rememberSaveable { mutableStateOf(0L) }
@@ -41,7 +42,7 @@ fun AddNoteScreen(
     val endTimeT = rememberSaveable { mutableStateOf(0L) }
     val durationT = rememberSaveable { mutableStateOf(0L) }
     val side = rememberSaveable { mutableStateOf("") }
-    val timeConverter = TimeConverter()
+    var timeConverter = remember{ TimeConverter() }
 
     val timerViewModelRunning = timerViewModel.isRunning.collectAsState().value
 
@@ -178,7 +179,7 @@ fun AddNoteScreen(
                     }
                     Timer(timerViewModel)
                 }
-                AddNotePlus(notesViewModel)
+                AddNotePlus()
             }
             side.value = myradioGroup()
             Spacer(modifier = Modifier.padding(2.dp))

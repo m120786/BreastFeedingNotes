@@ -19,6 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.vb.breastfeedingnotes.R
 import com.vb.breastfeedingnotes.database.Note
 import com.vb.breastfeedingnotes.ui.theme.PrimaryVeryLight
@@ -37,7 +38,10 @@ import java.util.*
 
 
 @Composable
-fun AddNotePlus(mNotesViewModel: NotesViewModel) {
+fun AddNotePlus() {
+
+    val mNotesViewModel: NotesViewModel = viewModel()
+
     var showDialog by remember { mutableStateOf(false)}
 
     val context = LocalContext.current as AppCompatActivity
@@ -148,7 +152,7 @@ fun TimePicker(
     val hour = calendar[Calendar.HOUR_OF_DAY]
     val minute= calendar[Calendar.MINUTE]
 
-    var timeConverter = TimeConverter()
+    var timeConverter = remember{ TimeConverter() }
     var timeLong = remember {mutableStateOf(0L)}
 
     val simpleDateFormat = SimpleDateFormat("HH:mm")

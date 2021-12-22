@@ -7,8 +7,9 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-class TimerViewModel(): ViewModel() {
+class TimerViewModel @Inject constructor(): ViewModel() {
     private val _running = MutableLiveData(false)
     val running: LiveData<Boolean> = _running
 

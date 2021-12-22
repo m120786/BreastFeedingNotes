@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.vb.breastfeedingnotes.R
 import com.vb.breastfeedingnotes.database.Note
 import com.vb.breastfeedingnotes.utils.TimeConverter
@@ -26,7 +27,8 @@ import java.time.LocalDate
 
 
 @Composable
-fun NotesList(viewModel: NotesViewModel) {
+fun NotesList() {
+    val viewModel: NotesViewModel = viewModel()
 
     val noteList by viewModel.notes.collectAsState(initial = emptyList())
 

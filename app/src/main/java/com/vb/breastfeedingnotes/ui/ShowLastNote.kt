@@ -11,12 +11,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.vb.breastfeedingnotes.ui.theme.Primary
 import com.vb.breastfeedingnotes.ui.theme.Grey
 
@@ -29,10 +31,13 @@ import com.vb.breastfeedingnotes.ui.theme.Secondary
 import java.time.LocalDate
 
 @Composable
-fun ShowLastNote(viewModel: NotesViewModel) {
+fun ShowLastNote() {
+
+    val viewModel: NotesViewModel = viewModel()
+
     val last_feeding by viewModel.lastNote.collectAsState(initial = Note(0, LocalDate.now(),0,0,0,"L"))
 //    val last_feeding = viewModel.getLastFeeding().observeAsState()
-    val timeConverter = TimeConverter()
+    var timeConverter = remember{ TimeConverter() }
     Card(elevation = 2.dp,
         shape = RoundedCornerShape(10.dp),
         modifier = Modifier.padding(10.dp)) {
