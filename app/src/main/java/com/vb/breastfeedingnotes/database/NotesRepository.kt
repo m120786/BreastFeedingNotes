@@ -6,7 +6,6 @@ import java.time.LocalDate
 import javax.inject.Inject
 
 class NotesRepository @Inject constructor(private val notesDao: NotesDao) {
-    val readAllNotes: LiveData<List<Note>> = notesDao.getAllNotes()
 
     suspend fun addNote(note: Note) {
         notesDao.insert(note)
@@ -16,7 +15,7 @@ class NotesRepository @Inject constructor(private val notesDao: NotesDao) {
         notesDao.delete(note)
     }
 
-    fun getLastFeeding(): LiveData<Note> {
+    fun getLastFeeding(): Flow<Note> {
         return notesDao.getLatestFeeding()
     }
 

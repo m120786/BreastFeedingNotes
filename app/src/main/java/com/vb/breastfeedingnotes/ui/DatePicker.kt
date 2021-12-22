@@ -11,9 +11,7 @@ import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,20 +29,18 @@ import java.util.*
 @Composable
 fun DatePickerView(viewModel: NotesViewModel) {
     val activity = LocalContext.current as AppCompatActivity
-    var calendarDate = rememberSaveable{mutableStateOf(LocalDate.now())}
+//    var calendarDate = rememberSaveable{mutableStateOf(LocalDate.now())}
+
+    val calendarDate by viewModel.selectedDate.collectAsState(initial = LocalDate.now().toString())
 
 
-    viewModel.onDateChange(calendarDate.value.toString())
+//    viewModel.onDateChange(calendarDate.toString())
 
 
     val updateDate = { date: Long? ->
-        calendarDate.value = LocalDate.parse(DateFormater(date))
-        viewModel.onDateChange(calendarDate.value.toString())
+        var dateString = DateFormater(date)!!
+        viewModel.onDateChange(dateString)
     }
-    viewModel.selectedDate.observe(activity) {
-        calendarDate.value = LocalDate.parse(it)
-    }
-
         OutlinedButton(
             onClick = { showDatePicker(activity, updateDate) },
             modifier = Modifier.padding(4.dp),
@@ -53,11 +49,9 @@ fun DatePickerView(viewModel: NotesViewModel) {
         {
             Icon(imageVector = Icons.Filled.DateRange, "date_range_icon")
             Text(
-                text = "${calendarDate.value}"
+                text = "${calendarDate}"
             )
         }
-
-
 }
 
 

@@ -8,6 +8,8 @@ import com.vb.breastfeedingnotes.database.NotesDatabase
 import com.vb.breastfeedingnotes.database.NotesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -18,25 +20,28 @@ import javax.inject.Inject
 @HiltViewModel
 class NotesViewModel @Inject constructor(private val repository: NotesRepository): ViewModel() {
 
-    private val _start_time = MutableLiveData<String>()
-    val start_time: LiveData<String> = _start_time
+    private val _start_time = MutableStateFlow<String>("0")
+    val start_time: Flow<String> = _start_time
 
-    private val _end_time = MutableLiveData<String>()
-    val end_time: LiveData<String> = _end_time
+    private val _end_time = MutableStateFlow<String>("0")
+    val end_time: Flow<String> = _end_time
 
-    private val _side = MutableLiveData<String>()
-    val side: LiveData<String> = _side
+    private val _side = MutableStateFlow<String>("L")
+    val side: Flow<String> = _side
 
-    private val _selectedDate = MutableLiveData<String>()
-    val selectedDate: LiveData<String> = _selectedDate
+    private val _selectedDate = MutableStateFlow<String>(LocalDate.now().toString())
+    val selectedDate: Flow<String> = _selectedDate
 
-    private val _duration_time = MutableLiveData<String>()
+    private val _duration_time = MutableStateFlow<String>("0")
+
+    val notes = selectedDate.flatMapLatest { repository.getFeedingsByDate(LocalDate.parse(it)) }
+
+//    val notes = selectedDate.asFlow().flatMapLatest {  repository.getFeedingsByDate(LocalDate.parse(it)) }
+
+    val lastNote = repository.getLastFeeding()
 
 
-    val notes = selectedDate.asFlow().flatMapLatest {  repository.getFeedingsByDate(LocalDate.parse(it)) }
-
-
-    fun onDateChange(date: String?) {
+    fun onDateChange(date: String) {
         _selectedDate.value = date
     }
 
@@ -66,10 +71,6 @@ class NotesViewModel @Inject constructor(private val repository: NotesRepository
    suspend fun removeNote(note: Note) {
             repository.deleteNote(note)
 
-    }
-
-    fun getLastFeeding(): LiveData<Note> {
-        return repository.getLastFeeding()
     }
 
 

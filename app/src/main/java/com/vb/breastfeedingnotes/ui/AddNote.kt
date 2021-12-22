@@ -34,7 +34,7 @@ fun AddNoteScreen(
     timerViewModel: TimerViewModel
 ) {
 
-    val startTime = notesViewModel.start_time.observeAsState("")
+    val startTime = notesViewModel.start_time.collectAsState(initial = 0L)
     val startTimeT = rememberSaveable { mutableStateOf(0L) }
 //    val currentDate = rememberSaveable { mutableStateOf(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"))) }
     val currentDate = rememberSaveable { mutableStateOf(LocalDate.now()) }
