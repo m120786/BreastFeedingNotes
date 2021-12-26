@@ -1,18 +1,15 @@
 package com.vb.breastfeedingnotes.database
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import java.time.Instant
 import java.time.LocalDate
+import kotlin.time.Duration
+import kotlin.time.ExperimentalTime
 
-@Entity(tableName = "my_breastfeeding_notes")
-data class Note(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    @ColumnInfo(name = "date") val date: LocalDate,
-    @ColumnInfo(name = "start_time") val start: Long = System.currentTimeMillis(),
-    @ColumnInfo(name = "end_time") val end: Long = start,
-    @ColumnInfo(name = "duration") val duration: Long,
-    @ColumnInfo(name = "side") val side: String
-) {
+data class Note @ExperimentalTime constructor(
+    val date: LocalDate,
+    val startTime: Instant,
+    val endTime: Instant,
+    val duration: Duration,
+    val side: SidePick)
 
-}
+enum class SidePick{Left, Right}

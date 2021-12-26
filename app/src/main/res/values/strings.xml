@@ -1,17 +1,17 @@
 <resources>
     <string name="app_name">BreastFeedingNotes</string>
-    <string name="start">Pradžia: </string>
-    <string name="end">Pabaiga: </string>
-    <string name="duration">Trukmė: </string>
-    <string name="side">Pusė:   </string>
-    <string name="cancel">Atšaukti</string>,
-    <string name="add">Pridėti</string>
-    <string name="add_note">Pridėti įrašą</string>
-    <string name="left">Kairė</string>
-    <string name="right">Dešinė</string>
-    <string name="left_l">L</string>
-    <string name="right_r">R</string>
-
+    <string name="start">Start: </string>
+    <string name="end">End: </string>
+    <string name="duration">Length: </string>
+    <string name="side">Side:   </string>
+    <string name="cancel">Cancel</string>,
+    <string name="add">Add</string>
+    <string name="add_note">Add Note</string>
+    <string name="left">Left</string>
+    <string name="right">Right</string>
+    <string name="left_l">Left</string>
+    <string name="right_r">Right</string>
+    <string name="last_feed">Last feeding</string>
 
 
 </resources>

@@ -1,6 +1,5 @@
 package com.vb.breastfeedingnotes.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.launch
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -9,33 +8,28 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.vb.breastfeedingnotes.R
-import com.vb.breastfeedingnotes.database.Note
+import com.vb.breastfeedingnotes.database.toNote
 import com.vb.breastfeedingnotes.utils.TimeConverter
-import com.vb.breastfeedingnotes.viewmodel.NotesViewModel
-import kotlinx.coroutines.*
-import java.time.LocalDate
+import com.vb.breastfeedingnotes.notesView.NotesViewModel
+import java.time.LocalTime
+import java.time.ZoneId
+import java.time.temporal.ChronoUnit
+import kotlin.time.ExperimentalTime
 
 
+@ExperimentalTime
 @Composable
-fun NotesList() {
-    val viewModel: NotesViewModel = viewModel()
+fun NotesList(viewModel: NotesViewModel) {
 
     val noteList by viewModel.notes.collectAsState(initial = emptyList())
 
-
-    val timeConverter = remember { TimeConverter() }
     LazyColumn(modifier = Modifier.fillMaxWidth()) {
         items(noteList) { note ->
+            var notes = note.toNote()
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -45,22 +39,22 @@ fun NotesList() {
             )
             {
                 Text(
-                    text = "${timeConverter.convertTimeFromLongToString(note.start)}",
+                    text = "${LocalTime.from(notes.startTime.atZone(ZoneId.systemDefault())).truncatedTo(ChronoUnit.MINUTES)}",
                     modifier = Modifier.align(Alignment.CenterVertically)
                 )
                 Spacer(modifier = Modifier.padding(2.dp))
                 Text(
-                    text = "${timeConverter.convertTimeFromLongToString(note.end)}",
+                    text = "${LocalTime.from(notes.endTime.atZone(ZoneId.systemDefault())).truncatedTo(ChronoUnit.MINUTES)}",
                     modifier = Modifier.align(Alignment.CenterVertically)
                 )
                 Spacer(modifier = Modifier.padding(2.dp))
                 Text(
-                    text = "${timeConverter.getDisplayValue(note.duration)}",
+                    text = "${notes.duration}",
                     modifier = Modifier.align(Alignment.CenterVertically)
                 )
                 Spacer(modifier = Modifier.padding(2.dp))
                 Text(
-                    text = "${note.side}",
+                    text = "${notes.side}",
                     modifier = Modifier.align(Alignment.CenterVertically)
                 )
                 val scope = rememberCoroutineScope()

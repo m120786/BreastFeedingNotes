@@ -6,7 +6,6 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.google.common.truth.Truth.assertThat
-import com.vb.breastfeedingnotes.getOrAwaitValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
@@ -44,7 +43,7 @@ class NotesDaoTest {
     @Test
     fun insertNote() = runBlockingTest {
         var date = LocalDate.parse("2021-11-10")
-        var note = Note(1, date,10000L,110000L,120000L,"L")
+        var note = NotesEntity(1, date,10000L,110000L,120000L,"L")
         dao.insert(note)
 
         val notes = dao.getAllNotes().getOrAwaitValue()
@@ -55,7 +54,7 @@ class NotesDaoTest {
     @Test
     fun deleteNote() = runBlockingTest {
         var date = LocalDate.parse("2021-11-10")
-        var note = Note(1, date,10000L,110000L,120000L,"L")
+        var note = NotesEntity(1, date,10000L,110000L,120000L,"L")
         dao.insert(note)
         dao.delete(note)
 
@@ -66,7 +65,7 @@ class NotesDaoTest {
     @Test
     fun getFeedingsByDate() = runBlockingTest {
         var date = LocalDate.parse("2021-11-10")
-        var note = Note(1, date,10000L,110000L,120000L,"L")
+        var note = NotesEntity(1, date,10000L,110000L,120000L,"L")
         dao.insert(note)
         var note2 = dao.getFeedingsByDate(date)
         assertThat(note2).contains(note)

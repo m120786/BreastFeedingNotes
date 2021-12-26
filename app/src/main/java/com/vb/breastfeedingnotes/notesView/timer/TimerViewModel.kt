@@ -1,4 +1,4 @@
-package com.vb.breastfeedingnotes.ui.timer
+package com.vb.breastfeedingnotes.notesView.timer
 
 import android.os.CountDownTimer
 import androidx.lifecycle.LiveData
@@ -27,7 +27,7 @@ class TimerViewModel @Inject constructor(): ViewModel() {
 
     val totalTime: Long = 60000000L
 
-    val timer = object : CountDownTimer(totalTime, 1000) {
+    private val timer = object : CountDownTimer(totalTime, 1000) {
         override fun onTick(millisUntilFinished: Long) {
 
             val timeHours = TimeUnit.MILLISECONDS.toHours((totalTime - millisUntilFinished)).toInt()

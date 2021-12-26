@@ -1,4 +1,4 @@
-package com.vb.breastfeedingnotes
+package com.vb.breastfeedingnotes.di
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

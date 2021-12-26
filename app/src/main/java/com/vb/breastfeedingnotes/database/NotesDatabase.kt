@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.vb.breastfeedingnotes.utils.DateConverter
 
-@Database (entities = [Note::class], version = 1, exportSchema = false)
+@Database (entities = [NotesEntity::class], version = 1, exportSchema = false)
 @TypeConverters(DateConverter::class)
 abstract class NotesDatabase: RoomDatabase() {
 
