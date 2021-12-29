@@ -6,6 +6,7 @@ import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
 
 data class Note @ExperimentalTime constructor(
+    val id: Int,
     val date: LocalDate,
     val startTime: Instant,
     val endTime: Instant,

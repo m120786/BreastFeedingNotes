@@ -7,28 +7,19 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.vb.breastfeedingnotes.utils.DateConverter
 
-@Database (entities = [NotesEntity::class], version = 1, exportSchema = false)
+@Database(entities = [NotesEntity::class], version = 1, exportSchema = false)
 @TypeConverters(DateConverter::class)
-abstract class NotesDatabase: RoomDatabase() {
+abstract class NotesDatabase : RoomDatabase() {
 
     abstract fun getDao(): NotesDao
 
     companion object {
-        private var INSTANCE: NotesDatabase? = null
-        fun getInstance(context: Context): NotesDatabase {
-            synchronized(this) {
-                var instance = INSTANCE
-                if (instance == null) {
-                    instance = Room.databaseBuilder(
-                        context.applicationContext,
-                        NotesDatabase::class.java,
-                        "notes_Database").
-                    fallbackToDestructiveMigration()
-                        .build()
-                    INSTANCE = instance
-                }
-                return instance
-            }
-        }
+        fun createDb(context: Context): NotesDatabase = Room.databaseBuilder(
+            context.applicationContext,
+            NotesDatabase::class.java,
+            "notes_Database",
+        )
+            .fallbackToDestructiveMigration()
+            .build()
     }
 }

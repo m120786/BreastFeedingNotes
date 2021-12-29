@@ -1,6 +1,7 @@
 package com.vb.breastfeedingnotes.database
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import java.time.Instant
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
@@ -12,30 +13,33 @@ import kotlin.time.toDuration
 
 class NotesRepository @Inject constructor(private val notesDao: NotesDao): NotesService {
 
-    @ExperimentalTime
+    @OptIn(ExperimentalTime::class)
     override suspend fun addNote(note: Note) {
         notesDao.insert(notesEntity = note.toNotesEntity())
     }
 
-    override suspend fun deleteNote(notesEntity: NotesEntity) {
-        notesDao.delete(notesEntity)
+    @OptIn(ExperimentalTime::class)
+    override suspend fun deleteNote(note: Note) {
+        notesDao.delete(note.toNotesEntity())
     }
 
-    override fun getLastFeeding(): Flow<NotesEntity> {
-        return notesDao.getLatestFeeding()
+    @OptIn(ExperimentalTime::class)
+    override fun getLastFeeding(): Flow<Note> {
+        return notesDao.getLatestFeeding().map { it.toNote() }
     }
 
-    override fun getFeedingsByDate(selected_date: LocalDate): Flow<List<NotesEntity>> {
-       return notesDao.getFeedingsByDate(selected_date)
+    @OptIn(ExperimentalTime::class)
+    override fun getFeedingsByDate(selected_date: LocalDate): Flow<List<Note>> {
+       return notesDao.getFeedingsByDate(selected_date).map { list -> list.map {it.toNote()} }
     }
 
-    @ExperimentalTime
+    @OptIn(ExperimentalTime::class)
     override suspend fun calculateDurationAndSave(date: LocalDate, start: Instant, end: Instant, side: SidePick){
         var duration = start?.until(end, ChronoUnit.MILLIS)?.toDuration(DurationUnit.MILLISECONDS)
                 if (duration.isNegative()) {
                     duration = duration.plus(Duration.Companion.days(1))
                 }
-        notesDao.insert(Note(date,start,end,duration, side).toNotesEntity())
+        notesDao.insert(Note(0, date,start,end,duration, side).toNotesEntity())
     }
 
     @ExperimentalTime

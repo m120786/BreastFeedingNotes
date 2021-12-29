@@ -1,11 +1,13 @@
 package com.vb.breastfeedingnotes.di
 
 import android.app.Application
+import android.content.Context
 import com.vb.breastfeedingnotes.database.NotesDao
 import com.vb.breastfeedingnotes.database.NotesDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -15,8 +17,8 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun getNotesDb(context: Application): NotesDatabase {
-        return NotesDatabase.getInstance(context)
+    fun getNotesDb(@ApplicationContext context: Context): NotesDatabase {
+        return NotesDatabase.createDb(context)
     }
 
     @Singleton

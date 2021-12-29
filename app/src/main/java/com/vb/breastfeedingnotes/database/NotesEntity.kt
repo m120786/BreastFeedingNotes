@@ -22,6 +22,7 @@ data class NotesEntity(
 @ExperimentalTime
 fun NotesEntity.toNote(): Note {
     return Note(
+        id = id,
         date = LocalDate.parse(date.toString()),
         startTime = Instant.ofEpochMilli(start),
         endTime = Instant.ofEpochMilli(end),
@@ -32,7 +33,7 @@ fun NotesEntity.toNote(): Note {
 @ExperimentalTime
 fun Note.toNotesEntity(): NotesEntity {
     return NotesEntity(
-        id = 0,
+        id = id,
         date = date,
         start = startTime.toEpochMilli(),
         end = endTime.toEpochMilli(),

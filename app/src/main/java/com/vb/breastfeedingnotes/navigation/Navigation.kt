@@ -17,19 +17,14 @@ import kotlin.time.ExperimentalTime
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
-    val viewModel: NotesViewModel = viewModel()
-    val timerViewModel: TimerViewModel = viewModel()
-    val addNotePlusViewModel: AddNotePlusViewModel = viewModel()
-    val context = LocalContext.current
-
 
     NavHost(navController = navController,
         startDestination = Screen.MainScreen.route) {
             composable(route = Screen.MainScreen.route) {
-                NotesScreen(viewModel, timerViewModel, navController)
+                NotesScreen(navController)
             }
         composable(route = Screen.DialogScreen.route) {
-            AddNotePlus(addNotePlusViewModel = addNotePlusViewModel, context = context, navController = navController)
+            AddNotePlus(navController = navController)
         }
         }
 }

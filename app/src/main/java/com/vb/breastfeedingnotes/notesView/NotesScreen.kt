@@ -17,29 +17,25 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.vb.breastfeedingnotes.R
 import com.vb.breastfeedingnotes.navigation.Screen
-import com.vb.breastfeedingnotes.notesView.lastNote.ShowLastNote
 import com.vb.breastfeedingnotes.notesView.addNote.AddNote
+import com.vb.breastfeedingnotes.notesView.lastNote.ShowLastNote
 import com.vb.breastfeedingnotes.ui.DatePickerView
 import com.vb.breastfeedingnotes.ui.NotesList
 import com.vb.breastfeedingnotes.ui.RowOfIcons
 import com.vb.breastfeedingnotes.ui.theme.PrimaryDark
 import com.vb.breastfeedingnotes.ui.theme.PrimaryVeryLight
-import com.vb.breastfeedingnotes.notesView.timer.TimerViewModel
 import kotlin.time.ExperimentalTime
 
 @ExperimentalTime
 @Composable
 fun NotesScreen(
-    viewModel: NotesViewModel,
-    timerViewModel: TimerViewModel,
     navController: NavController
 ) {
-
 
     Surface(color = White) {
         Column {
             Row(Modifier.weight(1f)) {
-                ShowLastNote(viewModel)
+                ShowLastNote()
             }
             Spacer(modifier = Modifier.padding(1.dp))
             Row(Modifier.weight(3f)) {
@@ -48,9 +44,9 @@ fun NotesScreen(
                     modifier = Modifier.padding(horizontal = 10.dp, vertical = 10.dp)
                 ) {
                     Column(horizontalAlignment = Alignment.End) {
-                        DatePickerView(viewModel)
+                        DatePickerView()
                         RowOfIcons()
-                        NotesList(viewModel = viewModel)
+                        NotesList()
 
                     }
                 }
@@ -78,10 +74,7 @@ fun NotesScreen(
                 }
             }
             Row(Modifier.weight(2f)) {
-                AddNote(
-                    viewModel,
-                    timerViewModel
-                )
+                AddNote()
             }
         }
     }

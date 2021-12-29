@@ -10,11 +10,11 @@ interface NotesService {
 
     suspend fun addNote(note: Note): Unit
 
-    suspend fun deleteNote(notesEntity: NotesEntity): Unit
+    suspend fun deleteNote(note: Note): Unit
 
-    fun getLastFeeding(): Flow<NotesEntity>
+    fun getLastFeeding(): Flow<Note>
 
-    fun getFeedingsByDate(selected_date: LocalDate): Flow<List<NotesEntity>>
+    fun getFeedingsByDate(selected_date: LocalDate): Flow<List<Note>>
 
     @ExperimentalTime
     suspend fun calculateDurationAndSave(date: LocalDate, start: Instant, end: Instant, side: SidePick)

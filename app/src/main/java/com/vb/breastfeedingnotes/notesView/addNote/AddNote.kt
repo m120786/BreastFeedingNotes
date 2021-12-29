@@ -17,6 +17,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.vb.breastfeedingnotes.R
 import com.vb.breastfeedingnotes.database.SidePick
 import com.vb.breastfeedingnotes.ui.theme.*
@@ -27,7 +28,11 @@ import kotlin.time.ExperimentalTime
 
 @ExperimentalTime
 @Composable
-fun AddNote(notesViewModel: NotesViewModel, timerViewModel: TimerViewModel) {
+fun AddNote() {
+
+    val notesViewModel = hiltViewModel<NotesViewModel>()
+    val timerViewModel = hiltViewModel<TimerViewModel>()
+
     val timerViewModelRunning = timerViewModel.isRunning.collectAsState().value
     val isTimerRunning = rememberSaveable { mutableStateOf(false) }
 
@@ -118,7 +123,7 @@ fun AddNote(notesViewModel: NotesViewModel, timerViewModel: TimerViewModel) {
                 }
             }
             val side: String = myRadioGroup()
-            notesViewModel.setSide(SidePick.valueOf(side))
+            notesViewModel.side.value = SidePick.valueOf(side)
             Spacer(modifier = Modifier.padding(2.dp))
 
             /*

@@ -15,22 +15,29 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.vb.breastfeedingnotes.R
+import com.vb.breastfeedingnotes.database.Note
 import com.vb.breastfeedingnotes.database.NotesEntity
+import com.vb.breastfeedingnotes.database.SidePick
 import com.vb.breastfeedingnotes.database.toNote
 import com.vb.breastfeedingnotes.notesView.NotesViewModel
 import com.vb.breastfeedingnotes.ui.theme.PrimaryDark
+import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
 import java.time.temporal.ChronoUnit
+import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
 
 @ExperimentalTime
 @Composable
-fun ShowLastNote(viewModel: NotesViewModel) {
+fun ShowLastNote() {
 
-    val lastFeeding by viewModel.lastNote.collectAsState(initial = NotesEntity(0, LocalDate.now(),0,0,0,"Left"))
+    val viewModel = hiltViewModel<NotesViewModel>()
+
+    val lastFeeding by viewModel.lastNote.collectAsState(initial = Note(0, LocalDate.now(), Instant.now(),Instant.now(), Duration.ZERO,SidePick.Left))
 
     Card(elevation = 2.dp,
         shape = RoundedCornerShape(10.dp),
@@ -58,20 +65,19 @@ fun ShowLastNote(viewModel: NotesViewModel) {
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                val last = lastFeeding.toNote()
                 Text(
-                    text = "${LocalTime.from(last.startTime.atZone(ZoneId.systemDefault())).truncatedTo(ChronoUnit.MINUTES)}",
+                    text = "${LocalTime.from(lastFeeding.startTime.atZone(ZoneId.systemDefault())).truncatedTo(ChronoUnit.MINUTES)}",
                     color = Color.Black
                 )
                 Text(
-                    text = "${LocalTime.from(last.endTime.atZone(ZoneId.systemDefault())).truncatedTo(ChronoUnit.MINUTES)}",
+                    text = "${LocalTime.from(lastFeeding.endTime.atZone(ZoneId.systemDefault())).truncatedTo(ChronoUnit.MINUTES)}",
                     color = Color.Black
                 )
                 Text(
-                    text = "${last.duration}",
+                    text = "${lastFeeding.duration}",
                     color = Color.Black
                 )
-                Text(text = "${last.side}", color = Color.Black)
+                Text(text = "${lastFeeding.side}", color = Color.Black)
             }
         }
     }

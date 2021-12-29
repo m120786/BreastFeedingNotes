@@ -20,26 +20,23 @@ import kotlin.time.ExperimentalTime
 @HiltViewModel
 class NotesViewModel @Inject constructor(private val notesService: NotesService): ViewModel() {
 
-    private val _selectedDate = MutableStateFlow<LocalDate>(LocalDate.now())
-    val selectedDate: Flow<LocalDate> = _selectedDate
+     val selectedDate = MutableStateFlow<LocalDate>(LocalDate.now())
 
-    private val _startTime = MutableStateFlow<Instant>(Instant.now())
-    val startTime: Flow<Instant> = _startTime
+     val startTime = MutableStateFlow<Instant>(Instant.now())
 
-     fun getStartTime() {
-        _startTime.value = Instant.now()
-         _selectedDate.value = LocalDate.now()
+     val endTime = MutableStateFlow<Instant>(Instant.now())
+
+     val side = MutableStateFlow(SidePick.Left)
+
+    fun getStartTime() {
+        startTime.value = Instant.now()
+        selectedDate.value = LocalDate.now()
     }
 
-    private val _endTime = MutableStateFlow<Instant>(Instant.now())
-
-    private val _side = MutableStateFlow<SidePick>(SidePick.Left)
-    val side: Flow<SidePick> = _side
-
     fun getDurationAndSave() {
-        _endTime.value = Instant.now()
+        endTime.value = Instant.now()
         viewModelScope.launch {
-            notesService.calculateDurationAndSave(_selectedDate.value, _startTime.value, _endTime.value, _side.value)
+            notesService.calculateDurationAndSave(selectedDate.value, startTime.value, endTime.value, side.value)
         }
     }
 
@@ -47,24 +44,15 @@ class NotesViewModel @Inject constructor(private val notesService: NotesService)
 
     val lastNote by lazy { notesService.getLastFeeding() }
 
-
-    fun setDate(date: LocalDate) {
-        _selectedDate.value = date
-    }
-
-    fun setSide(chosen_side: SidePick) {
-        _side.value = chosen_side
-    }
-
     fun addNote(note: Note) {
         viewModelScope.launch(Dispatchers.IO) {
             notesService.addNote(note)
         }
     }
 
-    suspend fun removeNote(notesEntity: NotesEntity) {
+     fun removeNote(note: Note) {
         viewModelScope.launch(Dispatchers.IO) {
-            notesService.deleteNote(notesEntity)
+            notesService.deleteNote(note)
         }
     }
 }
