@@ -25,7 +25,7 @@ class NotesRepository @Inject constructor(private val notesDao: NotesDao): Notes
 
     @OptIn(ExperimentalTime::class)
     override fun getLastFeeding(): Flow<Note> {
-        return notesDao.getLatestFeeding().map { it.toNote() }
+        return notesDao.getLatestFeeding().map { it?.toNote() }
     }
 
     @OptIn(ExperimentalTime::class)

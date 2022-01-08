@@ -57,7 +57,12 @@ fun DatePickerView() {
                     .background(Color.White),
                 update = { views ->
                     views.setOnDateChangeListener { calendarView, i, i2, i3 ->
-                        val date = LocalDate.parse("$i-${(i2+1)}-$i3")
+                        var dateString ="$i-${(i2+1)}-$i3"
+                        if (i2<10) { dateString = "$i-0${(i2 + 1)}-$i3" }
+                        if (i3<10) { dateString = "$i-${(i2 + 1)}-0$i3" }
+                        if (i2<10 && i3 < 10) { dateString = "$i-0${(i2 + 1)}-0$i3" }
+
+                        val date = LocalDate.parse(dateString)
                         viewModel.selectedDate.value = date
                         showDatePicker = false
                     }

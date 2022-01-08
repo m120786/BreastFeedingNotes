@@ -37,6 +37,8 @@ fun ShowLastNote() {
 
     val viewModel = hiltViewModel<NotesViewModel>()
 
+    
+
     val lastFeeding by viewModel.lastNote.collectAsState(initial = Note(0, LocalDate.now(), Instant.now(),Instant.now(), Duration.ZERO,SidePick.Left))
 
     Card(elevation = 2.dp,
@@ -65,19 +67,26 @@ fun ShowLastNote() {
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                Text(
-                    text = "${LocalTime.from(lastFeeding.startTime.atZone(ZoneId.systemDefault())).truncatedTo(ChronoUnit.MINUTES)}",
-                    color = Color.Black
-                )
-                Text(
-                    text = "${LocalTime.from(lastFeeding.endTime.atZone(ZoneId.systemDefault())).truncatedTo(ChronoUnit.MINUTES)}",
-                    color = Color.Black
-                )
-                Text(
-                    text = "${lastFeeding.duration}",
-                    color = Color.Black
-                )
-                Text(text = "${lastFeeding.side}", color = Color.Black)
+                if (lastFeeding != null) {
+                    Text(
+                        text = "${LocalTime.from(lastFeeding.startTime.atZone(ZoneId.systemDefault())).truncatedTo(ChronoUnit.MINUTES)}",
+                        color = Color.Black
+                    )
+                    Text(
+                        text = "${LocalTime.from(lastFeeding.endTime.atZone(ZoneId.systemDefault())).truncatedTo(ChronoUnit.MINUTES)}",
+                        color = Color.Black
+                    )
+                    Text(
+                        text = "${lastFeeding.duration}",
+                        color = Color.Black
+                    )
+                    Text(text = "${lastFeeding.side}", color = Color.Black)
+                } else {
+                    Text(text = "----", color = Color.Black)
+                    Text(text = "----", color = Color.Black)
+                    Text(text = "----", color = Color.Black)
+                    Text(text = "----", color = Color.Black)
+                }
             }
         }
     }

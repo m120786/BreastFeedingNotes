@@ -11,12 +11,12 @@ import kotlin.time.toDuration
 
 @Entity(tableName = "my_breastfeeding_notes")
 data class NotesEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    @ColumnInfo(name = "date") val date: LocalDate,
+    @PrimaryKey(autoGenerate = true) val id: Int,
+    @ColumnInfo(name = "date") val date: LocalDate = LocalDate.now(),
     @ColumnInfo(name = "start_time") val start: Long = System.currentTimeMillis(),
     @ColumnInfo(name = "end_time") val end: Long = start,
-    @ColumnInfo(name = "duration") val duration: Long,
-    @ColumnInfo(name = "side") val side: String
+    @ColumnInfo(name = "duration") val duration: Long = 0L,
+    @ColumnInfo(name = "side") val side: String = "left"
 )
 
 @ExperimentalTime

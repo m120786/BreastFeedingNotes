@@ -12,7 +12,7 @@ import kotlin.time.ExperimentalTime
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    @ExperimentalTime
+    @OptIn(ExperimentalTime::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

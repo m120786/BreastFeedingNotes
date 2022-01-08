@@ -40,7 +40,7 @@ class NotesViewModel @Inject constructor(private val notesService: NotesService)
         }
     }
 
-    val notes = selectedDate.flatMapLatest { notesService.getFeedingsByDate(it) }
+    val notes = selectedDate.flatMapLatest { findFeedingByDate(it) }
 
     val lastNote by lazy { notesService.getLastFeeding() }
 
@@ -55,4 +55,8 @@ class NotesViewModel @Inject constructor(private val notesService: NotesService)
             notesService.deleteNote(note)
         }
     }
+    fun findFeedingByDate(date: LocalDate): Flow<List<Note>> {
+        return notesService.getFeedingsByDate(date)
+    }
+
 }

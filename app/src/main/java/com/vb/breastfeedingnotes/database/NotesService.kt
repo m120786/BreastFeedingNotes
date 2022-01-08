@@ -8,9 +8,9 @@ import kotlin.time.ExperimentalTime
 
 interface NotesService {
 
-    suspend fun addNote(note: Note): Unit
+    suspend fun addNote(note: Note)
 
-    suspend fun deleteNote(note: Note): Unit
+    suspend fun deleteNote(note: Note)
 
     fun getLastFeeding(): Flow<Note>
 

@@ -25,6 +25,7 @@ import androidx.navigation.NavController
 import com.vb.breastfeedingnotes.R
 import com.vb.breastfeedingnotes.database.SidePick
 import com.vb.breastfeedingnotes.navigation.Screen
+import com.vb.breastfeedingnotes.notesView.NotesViewModel
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalTime
@@ -39,13 +40,13 @@ fun AddNotePlus(
     navController: NavController
 ) {
     val addNotePlusViewModel = hiltViewModel<AddNotePlusViewModel>()
-
+    val notesListViewModel = hiltViewModel<NotesViewModel>()
     val duration = addNotePlusViewModel.duration.collectAsState(initial = Duration.ZERO)
     var timePickerStart by rememberSaveable { mutableStateOf(false) }
-    var timePickerEnd by rememberSaveable { mutableStateOf(false) }
+    var timePickerEnd: Boolean by rememberSaveable { mutableStateOf(false) }
 
-    var timePickerStartTime = addNotePlusViewModel.startTime.collectAsState(Instant.now())
-    var timePickerEndTime = addNotePlusViewModel.endTime.collectAsState(Instant.now())
+    val timePickerStartTime = addNotePlusViewModel.startTime.collectAsState(Instant.now())
+    val timePickerEndTime = addNotePlusViewModel.endTime.collectAsState(Instant.now())
 
     Dialog(onDismissRequest = { navController.popBackStack() }) {
         Card(
@@ -75,14 +76,12 @@ fun AddNotePlus(
                             modifier = Modifier.fillMaxWidth()
                                 .background(Color.White),
                             update = { view ->
-                                val setTimebutton = view.findViewById<Button>(R.id.btn_set_time)
+                                val setTimeButton = view.findViewById<Button>(R.id.btn_set_time)
                                 val cancelButton = view.findViewById<Button>(R.id.btn_cancel)
                                 val simpleTimePicker = view.findViewById<TimePicker>(R.id.simpleTimePicker)
                                 simpleTimePicker.setIs24HourView(true)
-                                setTimebutton.setOnClickListener {
-                                    var hour = simpleTimePicker.hour
-                                    var minute = simpleTimePicker.minute
-                                    addNotePlusViewModel.startTime.value = convertToInstant(hour, minute)
+                                setTimeButton.setOnClickListener {
+                                    addNotePlusViewModel.startTime.value = convertToInstant(simpleTimePicker.hour, simpleTimePicker.minute)
                                     timePickerStart = false
                                 }
                                 cancelButton.setOnClickListener {
@@ -114,9 +113,7 @@ fun AddNotePlus(
                                 val simpleTimePicker = view.findViewById<TimePicker>(R.id.simpleTimePicker)
                                 simpleTimePicker.setIs24HourView(true)
                                 setTimebutton.setOnClickListener {
-                                    var hour = simpleTimePicker.hour
-                                    var minute = simpleTimePicker.minute
-                                    addNotePlusViewModel.endTime.value = convertToInstant(hour, minute)
+                                    addNotePlusViewModel.endTime.value = convertToInstant(simpleTimePicker.hour, simpleTimePicker.minute)
                                     addNotePlusViewModel.calculateDuration()
                                     timePickerEnd = false
 
@@ -130,16 +127,17 @@ fun AddNotePlus(
                 }
                 Text(text = "${duration.value}")
                 Spacer(modifier = Modifier.padding(10.dp))
-                var side = SidePick.valueOf(myRadioGroup())
+                val side = SidePick.valueOf(myRadioGroup())
                 addNotePlusViewModel.sideDialog.value = side
                 Row(verticalAlignment = Alignment.Bottom) {
-                    OutlinedButton(onClick = { navController.navigate(Screen.MainScreen.route) }) {
+                    OutlinedButton(onClick = { navController.popBackStack() }) {
                         Text(text = stringResource(R.string.cancel))
                     }
                     Spacer(modifier = Modifier.padding(2.dp))
                     OutlinedButton(onClick = {
                         addNotePlusViewModel.saveObj()
-                        navController.popBackStack()
+                        notesListViewModel.selectedDate.value = LocalDate.now()     //refreshes notesList
+                        navController.navigate(Screen.MainScreen.route)
                     }) {
                         Text(text = stringResource(R.string.add))
                     }
@@ -172,5 +170,6 @@ fun convertToInstant(hour: Int, minute: Int): Instant {
     }
     val time = LocalTime.parse(timeString)
     val ldt = time.atDate(LocalDate.now())
+
     return ldt.atZone(ZoneId.systemDefault()).toInstant()
 }
