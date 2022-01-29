@@ -1,4 +1,4 @@
-package com.vb.breastfeedingnotes.database
+package com.vb.breastfeedingnotes.database.notes
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow

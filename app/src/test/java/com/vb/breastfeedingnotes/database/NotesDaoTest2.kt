@@ -1,20 +1,16 @@
 package com.vb.breastfeedingnotes.database
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.google.common.truth.Truth.assertThat
-import kotlinx.coroutines.async
+import com.vb.breastfeedingnotes.database.notes.NotesDao
+import com.vb.breastfeedingnotes.database.notes.NotesEntity
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.single
-import kotlinx.coroutines.flow.take
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.time.LocalDate
@@ -36,7 +32,7 @@ class NotesDaoTest2 {
             NotesDatabase::class.java
         ).build()
 
-        dao = database.getDao()
+        dao = database.getNotesDao()
     }
 
     @After

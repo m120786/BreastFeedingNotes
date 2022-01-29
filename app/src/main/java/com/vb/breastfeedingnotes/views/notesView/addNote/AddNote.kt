@@ -1,4 +1,4 @@
-package com.vb.breastfeedingnotes.notesView.addNote
+package com.vb.breastfeedingnotes.views.notesView.addNote
 
 
 import androidx.compose.foundation.background
@@ -19,10 +19,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.vb.breastfeedingnotes.R
-import com.vb.breastfeedingnotes.database.SidePick
+import com.vb.breastfeedingnotes.database.notes.SidePick
 import com.vb.breastfeedingnotes.ui.theme.*
-import com.vb.breastfeedingnotes.notesView.timer.TimerViewModel
-import com.vb.breastfeedingnotes.notesView.NotesViewModel
+import com.vb.breastfeedingnotes.views.notesView.timer.TimerViewModel
+import com.vb.breastfeedingnotes.views.notesView.NotesViewModel
 import kotlin.time.ExperimentalTime
 
 

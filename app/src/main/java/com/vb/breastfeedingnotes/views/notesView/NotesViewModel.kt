@@ -1,10 +1,9 @@
-package com.vb.breastfeedingnotes.notesView
+package com.vb.breastfeedingnotes.views.notesView
 
 import androidx.lifecycle.*
-import com.vb.breastfeedingnotes.database.Note
-import com.vb.breastfeedingnotes.database.NotesEntity
-import com.vb.breastfeedingnotes.database.NotesService
-import com.vb.breastfeedingnotes.database.SidePick
+import com.vb.breastfeedingnotes.database.notes.Note
+import com.vb.breastfeedingnotes.database.notes.NotesService
+import com.vb.breastfeedingnotes.database.notes.SidePick
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

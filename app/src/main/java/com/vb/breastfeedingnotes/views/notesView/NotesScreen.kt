@@ -1,4 +1,4 @@
-package com.vb.breastfeedingnotes.notesView
+package com.vb.breastfeedingnotes.views.notesView
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -17,9 +17,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.vb.breastfeedingnotes.R
 import com.vb.breastfeedingnotes.navigation.Screen
-import com.vb.breastfeedingnotes.notesView.addNote.AddNote
-import com.vb.breastfeedingnotes.notesView.lastNote.ShowLastNote
-import com.vb.breastfeedingnotes.ui.DatePickerView
+import com.vb.breastfeedingnotes.views.notesView.addNote.AddNote
+import com.vb.breastfeedingnotes.views.notesView.lastNote.ShowLastNote
+import com.vb.breastfeedingnotes.ui.NotesDatePickerView
 import com.vb.breastfeedingnotes.ui.NotesList
 import com.vb.breastfeedingnotes.ui.RowOfIcons
 import com.vb.breastfeedingnotes.ui.theme.PrimaryDark
@@ -44,7 +44,7 @@ fun NotesScreen(
                     modifier = Modifier.padding(horizontal = 10.dp, vertical = 10.dp)
                 ) {
                     Column(horizontalAlignment = Alignment.End) {
-                        DatePickerView()
+                        NotesDatePickerView()
                         RowOfIcons()
                         NotesList()
 

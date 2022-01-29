@@ -1,4 +1,4 @@
-package com.vb.breastfeedingnotes.notesView.addNote
+package com.vb.breastfeedingnotes.views.notesView.addNote
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -23,9 +23,9 @@ import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.vb.breastfeedingnotes.R
-import com.vb.breastfeedingnotes.database.SidePick
+import com.vb.breastfeedingnotes.database.notes.SidePick
 import com.vb.breastfeedingnotes.navigation.Screen
-import com.vb.breastfeedingnotes.notesView.NotesViewModel
+import com.vb.breastfeedingnotes.views.notesView.NotesViewModel
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalTime

@@ -1,4 +1,4 @@
-package com.vb.breastfeedingnotes.database
+package com.vb.breastfeedingnotes.database.notes
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

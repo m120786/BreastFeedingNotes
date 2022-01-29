@@ -1,4 +1,4 @@
-package com.vb.breastfeedingnotes.database
+package com.vb.breastfeedingnotes.database.notes
 
 import java.time.Instant
 import java.time.LocalDate
@@ -11,6 +11,7 @@ data class Note @ExperimentalTime constructor(
     val startTime: Instant,
     val endTime: Instant,
     val duration: Duration,
-    val side: SidePick)
+    val side: SidePick
+)
 
 enum class SidePick{Left, Right}

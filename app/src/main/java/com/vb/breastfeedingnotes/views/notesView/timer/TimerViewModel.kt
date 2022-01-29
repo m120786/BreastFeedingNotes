@@ -1,4 +1,4 @@
-package com.vb.breastfeedingnotes.notesView.timer
+package com.vb.breastfeedingnotes.views.notesView.timer
 
 import android.os.CountDownTimer
 import androidx.lifecycle.LiveData

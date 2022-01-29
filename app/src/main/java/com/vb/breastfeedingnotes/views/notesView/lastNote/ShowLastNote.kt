@@ -1,4 +1,4 @@
-package com.vb.breastfeedingnotes.notesView.lastNote
+package com.vb.breastfeedingnotes.views.notesView.lastNote
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -17,11 +17,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.vb.breastfeedingnotes.R
-import com.vb.breastfeedingnotes.database.Note
-import com.vb.breastfeedingnotes.database.NotesEntity
-import com.vb.breastfeedingnotes.database.SidePick
-import com.vb.breastfeedingnotes.database.toNote
-import com.vb.breastfeedingnotes.notesView.NotesViewModel
+import com.vb.breastfeedingnotes.database.notes.Note
+import com.vb.breastfeedingnotes.database.notes.SidePick
+import com.vb.breastfeedingnotes.views.notesView.NotesViewModel
 import com.vb.breastfeedingnotes.ui.theme.PrimaryDark
 import java.time.Instant
 import java.time.LocalDate
@@ -39,7 +37,9 @@ fun ShowLastNote() {
 
     
 
-    val lastFeeding by viewModel.lastNote.collectAsState(initial = Note(0, LocalDate.now(), Instant.now(),Instant.now(), Duration.ZERO,SidePick.Left))
+    val lastFeeding by viewModel.lastNote.collectAsState(initial = Note(0, LocalDate.now(), Instant.now(),Instant.now(), Duration.ZERO,
+        SidePick.Left)
+    )
 
     Card(elevation = 2.dp,
         shape = RoundedCornerShape(10.dp),

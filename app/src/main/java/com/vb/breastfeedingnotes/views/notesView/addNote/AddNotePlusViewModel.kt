@@ -1,10 +1,10 @@
-package com.vb.breastfeedingnotes.notesView.addNote
+package com.vb.breastfeedingnotes.views.notesView.addNote
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vb.breastfeedingnotes.database.Note
-import com.vb.breastfeedingnotes.database.NotesService
-import com.vb.breastfeedingnotes.database.SidePick
+import com.vb.breastfeedingnotes.database.notes.Note
+import com.vb.breastfeedingnotes.database.notes.NotesService
+import com.vb.breastfeedingnotes.database.notes.SidePick
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch

@@ -1,8 +1,7 @@
-package com.vb.breastfeedingnotes.notesView.addNote
+package com.vb.breastfeedingnotes.views.notesView.addNote
 
 import ch.tutteli.atrium.api.fluent.en_GB.toBeEqualComparingTo
 import ch.tutteli.atrium.api.verbs.expect
-import org.junit.Assert.*
 import org.junit.Test
 import java.time.LocalDate
 import java.time.LocalTime

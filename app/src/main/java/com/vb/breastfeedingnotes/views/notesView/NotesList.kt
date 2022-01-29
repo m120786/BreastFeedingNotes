@@ -11,14 +11,11 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.vb.breastfeedingnotes.database.toNotesEntity
-import com.vb.breastfeedingnotes.notesView.NotesViewModel
-import kotlinx.coroutines.launch
+import com.vb.breastfeedingnotes.views.notesView.NotesViewModel
 import java.time.LocalTime
 import java.time.ZoneId
 import java.time.temporal.ChronoUnit
