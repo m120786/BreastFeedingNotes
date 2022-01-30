@@ -19,7 +19,7 @@ import com.vb.breastfeedingnotes.R
 import com.vb.breastfeedingnotes.navigation.Screen
 import com.vb.breastfeedingnotes.views.notesView.addNote.AddNote
 import com.vb.breastfeedingnotes.views.notesView.lastNote.ShowLastNote
-import com.vb.breastfeedingnotes.ui.NotesDatePickerView
+import com.vb.breastfeedingnotes.views.notesView.addNote.NotesDatePickerView
 import com.vb.breastfeedingnotes.ui.NotesList
 import com.vb.breastfeedingnotes.ui.RowOfIcons
 import com.vb.breastfeedingnotes.ui.theme.PrimaryDark

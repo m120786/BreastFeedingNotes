@@ -13,13 +13,8 @@ import javax.inject.Inject
 class WeightViewModel @Inject constructor(private val weightService: WeightService): ViewModel() {
 
     val weightSelectedDate = MutableStateFlow<LocalDate>(LocalDate.now())
-    var allWeights = {getAllWeights()}
 
-
-
-    fun getAllWeights(): Flow<List<Weight>> {
-           return weightService.getAllWeight()
-    }
+    val allWeightData by lazy { weightService.getAllWeight() }
 
     fun insertWeight(weight: Weight) {
         viewModelScope.launch {

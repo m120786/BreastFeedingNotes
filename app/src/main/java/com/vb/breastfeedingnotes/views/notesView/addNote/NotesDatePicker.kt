@@ -1,4 +1,4 @@
-package com.vb.breastfeedingnotes.ui
+package com.vb.breastfeedingnotes.views.notesView.addNote
 
 import android.widget.CalendarView
 import androidx.compose.foundation.BorderStroke
@@ -40,7 +40,7 @@ fun NotesDatePickerView() {
     {
         Icon(imageVector = Icons.Filled.DateRange, "date_range_icon")
         Text(
-            text = "${selectedDate}"
+            text = "$selectedDate"
         )
     }
     if (showDatePicker) {
@@ -50,11 +50,11 @@ fun NotesDatePickerView() {
                 modifier = Modifier.wrapContentWidth()
                     .background(Color.White),
                 update = { views ->
-                    views.setOnDateChangeListener { calendarView, i, i2, i3 ->
+                    views.setOnDateChangeListener { _, i, i2, i3 ->
                         var dateString ="$i-${(i2+1)}-$i3"
-                        if (i2<10) { dateString = "$i-0${(i2 + 1)}-$i3" }
+                        if (i2+1<10) { dateString = "$i-0${(i2 + 1)}-$i3" }
                         if (i3<10) { dateString = "$i-${(i2 + 1)}-0$i3" }
-                        if (i2<10 && i3 < 10) { dateString = "$i-0${(i2 + 1)}-0$i3" }
+                        if (i2+1<10 && i3 < 10) { dateString = "$i-0${(i2 + 1)}-0$i3" }
 
                         val date = LocalDate.parse(dateString)
                         viewModel.selectedDate.value = date

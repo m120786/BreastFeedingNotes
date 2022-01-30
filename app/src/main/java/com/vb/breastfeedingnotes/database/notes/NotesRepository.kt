@@ -25,7 +25,7 @@ class NotesRepository @Inject constructor(private val notesDao: NotesDao): Notes
 
     @OptIn(ExperimentalTime::class)
     override fun getLastFeeding(): Flow<Note> {
-        return notesDao.getLatestFeeding().map { it?.toNote() }
+        return notesDao.getLatestFeeding().map { it.toNote() }
     }
 
     @OptIn(ExperimentalTime::class)
@@ -35,7 +35,7 @@ class NotesRepository @Inject constructor(private val notesDao: NotesDao): Notes
 
     @OptIn(ExperimentalTime::class)
     override suspend fun calculateDurationAndSave(date: LocalDate, start: Instant, end: Instant, side: SidePick){
-        var duration = start?.until(end, ChronoUnit.MILLIS)?.toDuration(DurationUnit.MILLISECONDS)
+        var duration = start.until(end, ChronoUnit.MILLIS).toDuration(DurationUnit.MILLISECONDS)
                 if (duration.isNegative()) {
                     duration = duration.plus(Duration.Companion.days(1))
                 }
@@ -44,7 +44,7 @@ class NotesRepository @Inject constructor(private val notesDao: NotesDao): Notes
 
     @ExperimentalTime
     override suspend fun calculateDuration(start: Instant, end: Instant): Duration {
-        var duration = start?.until(end, ChronoUnit.MILLIS)?.toDuration(DurationUnit.MILLISECONDS)
+        var duration = start.until(end, ChronoUnit.MILLIS).toDuration(DurationUnit.MILLISECONDS)
         if (duration.isNegative()) {
             duration = duration.plus(Duration.Companion.days(1))
         }
